@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace RabbitEndPoint1
 {
@@ -35,7 +36,15 @@ namespace RabbitEndPoint1
 
                 Console.WriteLine(" Press [enter] to exit.");
                 Console.ReadLine();
-            }
+
+                var cts = new CancellationTokenSource();
+
+                Task<int> t = new Task<int>(() => {
+                    Thread.Sleep(5000);
+                    return 1;
+                }, cts.Token);
+                t.Start();
+            }            
         }
     }
 }
